@@ -1,76 +1,146 @@
 <div align="center">
-  <img src="Assests/cover.png" height="150" width=300 />
+  <img src="Assests/cover.png" height="180" />
+  <br />
+  <img src="Assests/Binge.png" height="80" />
+  <h1>🚀 BingeControl</h1>
+  <p><b>Master your watch-time, one challenge at a time.</b></p>
+
+[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
+[![Made with Coffee](https://img.shields.io/badge/Made%20with-☕-brown.svg)](#)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/GyaneshSamanta/Thehacktrical-2/pulls)
+[![Hackathon](https://img.shields.io/badge/Built%20at-Thehacktrical%202-orange.svg)](#)
+
 </div>
+
+<hr />
+
+## 🎬 The "Why" (PM Perspective)
+
+**The Problem:** Binge-watching is the silent productivity killer of our generation. 70% of Netflix users binge-watch, often resulting in "Revenge Bedtime Procrastination" and a total loss of accountability.
+
+**The Solution:** **BingeControl** gamifies self-discipline. Instead of relying on raw willpower (which fails), we introduce a **Credit-based Reward System**. You want an hour of _Stranger Things_? Earn it by completing physical or mental micro-tasks.
+
+> "It's not about stopping the binge; it's about earning the guilt-free pleasure."
+
+### 📈 Success Metrics (KPIs)
+
+- **Time Reclaimed**: Average weekly reduction in hours spent on streaming platforms.
+- **Conversion Rate**: Number of units of "Work" (tasks) converted into "Play" (watch time).
+- **Engagement Retention**: Percentage of users who stay within their credit limit for 7+ consecutive days.
+
+---
+
+## ✨ Features
+
+- 🛠️ **Seamless Integration**: A lightweight Chrome Extension that lives right where you watch.
+- 💰 **Credit Economy**: Earn credits through activity modules and spend them to "unlock" watch time.
+- 📊 **Real-time Tracking**: Automatic session monitoring that deducts credits as you watch.
+- 🛑 **Enforced Breaks**: When your credits hit zero, it's time to get up and earn more!
+
+---
+
+## 🛠️ Tech Stack (Developer Perspective)
+
+| Category     | Technology                 | Purpose                                               |
+| :----------- | :------------------------- | :---------------------------------------------------- |
+| **Frontend** | ReactJS + HTML/CSS         | Modern, responsive UI for the extension & dashboard.  |
+| **Backend**  | ExpressJS + NodeJS         | Scalable API handling credits and authentication.     |
+| **Database** | Appwrite + MongoDB         | Cloud-based credit storage & user profile management. |
+| **Auth**     | Passport.js (Google OAuth) | Frictionless sign-ins for users.                      |
+| **Client**   | Chrome Extension API       | In-browser script injection for Netflix tracking.     |
+
+---
+
+## 🏗️ System Architecture
+
+1.  **Extension**: Injects a script into Netflix to track active video playback.
+2.  **API Gateway**: `server.js` routes requests to auth and credit handlers.
+3.  **Credit Micro-service**: Uses Appwrite's database to atomically update user credits based on "Work" (score) vs "Play" (watch time).
+4.  **Security**: Middleware ensures users can only spend the credits they've earned.
+
+---
+
+## 🔌 API Reference (Internal)
+
+| Endpoint                | Method | Description                                |
+| :---------------------- | :----- | :----------------------------------------- |
+| `/api/credits/fetchAll` | `GET`  | Fetches all user credit profiles.          |
+| `/api/credits/score`    | `POST` | Increments credits (User finished a task). |
+| `/api/credits/stop`     | `POST` | Decrements credits (User is watching).     |
+| `/auth/google`          | `GET`  | Initiates Google OAuth flow.               |
+
+---
+
+## 🚀 Setting Up the Lab
+
+### 1. Backend Initialization
+
+```bash
+# Clone the repository
+git clone https://github.com/GyaneshSamanta/Thehacktrical-2.git
+cd Guilt-free-binge
+
+# Install dependencies
+npm install
+
+# Setup Environment Variables (.env)
+PORT=3000
+APPWRITE_ENDPOINT=your_endpoint
+APPWRITE_PROJECT_ID=your_id
+APPWRITE_KEY=your_key
+
+# Start the engine
+npm start
+```
+
+### 2. Chrome Extension Setup
+
+1. Open Chrome and head to `chrome://extensions/`.
+2. Toggle **Developer Mode** (top right).
+3. Click **Load unpacked**.
+4. Select the `Chrome-Extension` folder from this repository.
+5. Pop open the extension and sign in!
+
+---
+
+## 📸 Preview
+
 <div align="center">
-  <img src="Assests/Binge.png" height="90" />
+  <img alt="Preview Images" src="Assests/preview.png" width="80%" />
 </div>
 
-<br>
-<p align="center">
-<b>Presenting BingeControl
-<br>
-Stay sharp before you Binge</b>
-</p>
-<blockquote align="center"> 
-  built on <span style="color: #8b0000;">☕</span> at Thehacktrical 2</a>.
+---
 
-</blockquote>
+## 🗓️ Roadmap (Product Vision)
 
-# 💡 Problem Statement
+- [ ] **Multi-platform Support**: Support for Prime Video, Disney+, and Hulu.
+- [ ] **Social Leaderboards**: Compete with friends on who has the best "Self-Control Score".
+- [ ] **Hardcore Mode**: Integration with smart locks/smart plugs to physically lock distractions.
+- [ ] **Advanced Analytics**: Monthly reports on how many hours of life you "saved".
 
-According to recent data from top streaming service <i> <b> Netflix </b> </i>; 70% of the users on the platform binge watch shows. A large chunk of the viewership comes from the youth age groups in between 15-27 years. We incorporated a chrome extension to help you control your binge habits with the help of a reward system. Based on points gained from tasks that simulate physical / mental activity, you can earn watch time which can be used to keep you accountable for the watch time. 
+---
 
-# 🧠 Knowledge Primer
+## 🤝 Contributing
 
-- Binge watch refers to watching multiple episodes of a TV show or movie in rapid succession. With the intriguing plot lines, users are more inclined than before to binge watch shows at a faster pace than before. 
-- A vast majority of these users look for solutions that would allow for them to control the habit of binge watching so that they can control cummilative habits such as procrastination. 
+We love developers who want to help users reclaim their time!
 
-# 📺 Preview
+1. **Fork** the project.
+2. Create your **Feature Branch** (`git checkout -b feature/AmazingFeature`).
+3. **Commit** your changes (`git commit -m 'Add some AmazingFeature'`).
+4. **Push** to the branch (`git push origin feature/AmazingFeature`).
+5. Open a **Pull Request**.
+
+---
+
+## 📜 License & Disclaimers
+
+Distributed under the **ISC License**.
+
+_Note: This project was built during Thehacktrical 2 hackathon. Plagiarism is uncool—if you use this code, give the team some credit!_
 
 <div align="center">
-  <img alt="Preview Images" src="Assests/preview.png" />
+  <h3>Built with ❤️ by Team SebastianVettel</h3>
+  <a href="https://github.com/GyaneshSamanta/Thehacktrical-2/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=GyaneshSamanta/Thehacktrical-2" />
+  </a>
 </div>
-
-
-# 💻 Tech Stack
-
-- Appwrite
-- ExpressJS
-- ReactJS
-- NodeJS
-- HTML
-- CSS 
-
-# 🔧 Utilisation
-
-1. Go to **[`chrome://extensions`](chrome://extensions)** enable developer mode, with developer mode enabled; choose `load unpacked` and navigate to the `chrome extension` folder. 
-2. After the extension is added, click on start watching on start recording the time when you're on [`Netflix.com`](https://netflix.com/in/) 
-
-# ⏭️ What's next
-
-- Add more websites to track, with more customizing options
-- Setup lap-timers to interrupt binge watches at a specific time rate
-- Connection to social accounts to showcase your control over binging!
-
-# 📜 License
-
-`BingeControl` is available for opensource use. 
-
-# 🤝 Contributing
-
-- Fork the repo
-- You can add in your changes and create a PR which will be reviewed at the earliest!
-
-# 💥 Contributors
-
-<a href="https://github.com/HackRx3/PS1_NudgeFudge/graphs/contributors">
-<img src="https://contrib.rocks/image?repo=GyaneshSamanta/Thehacktrical-2" alt="Contributors">
-</a>
-                                                                                  
-# 🚨 Forking this repo
-
-Many people have contacted us asking if they can use this code for their own websites. The answer to that question is usually "yes", with attribution. There are some cases, such as using this code for a business or something that is greater than a personal project, that we may be less comfortable saying yes to. If in doubt, please don't hesitate to ask us.
-
-We value keeping this site open source, but as you all know, _**plagiarism is bad**_. We spent a non-negligible amount of effort developing, designing, and trying to perfect this iteration of our website, and we are proud of it! All we ask is to not claim this effort as your own.
-
-Refer to this handy [quora post](https://www.quora.com/Is-it-bad-to-copy-other-peoples-code) if you're not sure what to do. Thanks!
