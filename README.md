@@ -1,145 +1,114 @@
 <div align="center">
-  <img src="Assests/cover.png" height="180" />
+  <img src="Assests/cover.png" height="200" />
   <br />
   <img src="Assests/Binge.png" height="80" />
-  <h1>🚀 BingeControl</h1>
-  <p><b>Master your watch-time, one challenge at a time.</b></p>
 
-[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
-[![Made with Coffee](https://img.shields.io/badge/Made%20with-☕-brown.svg)](#)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/GyaneshSamanta/Thehacktrical-2/pulls)
+# BingeControl
+
+**Master your watch-time, one challenge at a time — earn the binge, guilt-free.**
+
 [![Hackathon](https://img.shields.io/badge/Built%20at-Thehacktrical%202-orange.svg)](#)
+[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
+[![Stack](https://img.shields.io/badge/Stack-Node%20%7C%20Express%20%7C%20Chrome%20Ext-success)](#tech-stack)
 
 </div>
 
-<hr />
+---
 
-## 🎬 The "Why" (PM Perspective)
+## About
 
-**The Problem:** Binge-watching is the silent productivity killer of our generation. 70% of Netflix users binge-watch, often resulting in "Revenge Bedtime Procrastination" and a total loss of accountability.
+**BingeControl** (originally "Guilt-free Binge") is a Chrome Extension + backend that gamifies self-discipline against streaming-induced procrastination.
 
-**The Solution:** **BingeControl** gamifies self-discipline. Instead of relying on raw willpower (which fails), we introduce a **Credit-based Reward System**. You want an hour of _Stranger Things_? Earn it by completing physical or mental micro-tasks.
+|        |                                                                                              |
+| ------ | -------------------------------------------------------------------------------------------- |
+| Who    | Team **SebastianVettel** — Gyanesh, Eshaan, Sudhanshu, Nitish.                                |
+| What   | A credit-economy Chrome extension that meters Netflix watch-time against earned activity.    |
+| When   | November 2022, **Thehacktrical 2** hackathon.                                                |
+| Where  | Browser-side extension + Node/Express backend with Appwrite + MongoDB.                       |
+| Why    | 70% of streaming users binge-watch. Willpower fails — incentives don't.                       |
 
-> "It's not about stopping the binge; it's about earning the guilt-free pleasure."
+## The Story
 
-### 📈 Success Metrics (KPIs)
+It started with a confession the whole team shared: "one more episode" is a lie we keep telling ourselves at 2 a.m. The numbers backed the gut feeling — Revenge Bedtime Procrastination is now a measurable behavioral pattern, and existing screen-time blockers feel like punishment.
 
-- **Time Reclaimed**: Average weekly reduction in hours spent on streaming platforms.
-- **Conversion Rate**: Number of units of "Work" (tasks) converted into "Play" (watch time).
-- **Engagement Retention**: Percentage of users who stay within their credit limit for 7+ consecutive days.
+So we built the opposite of a blocker. **BingeControl** treats Netflix time like currency. Finish a quiz, complete a focus session, hit a step goal — credits go up. Open Netflix — credits go down in real time, deducted by an injected content script tracking active playback. Hit zero, and the show pauses until you earn more.
+
+The architecture splits cleanly: a Chrome extension that hooks Netflix's player, an Express API guarding a credit ledger in Appwrite, and Google OAuth so signing in feels like nothing. The team divided up by surface — extension, auth, credit micro-service, UI — and stitched it back together in 36 hours.
+
+The pitch landed because the framing flips guilt into permission: it's not about stopping the binge, it's about **earning the guilt-free pleasure**.
+
+## Gallery
+
+<div align="center">
+  <img alt="Preview" src="Assests/preview.png" width="85%" />
+</div>
 
 ---
 
-## ✨ Features
+## Tech Stack
 
-- 🛠️ **Seamless Integration**: A lightweight Chrome Extension that lives right where you watch.
-- 💰 **Credit Economy**: Earn credits through activity modules and spend them to "unlock" watch time.
-- 📊 **Real-time Tracking**: Automatic session monitoring that deducts credits as you watch.
-- 🛑 **Enforced Breaks**: When your credits hit zero, it's time to get up and earn more!
+| Layer        | Tech                                                |
+| ------------ | --------------------------------------------------- |
+| Frontend     | HTML / CSS / EJS, Chrome Extension APIs              |
+| Backend      | Node.js, Express, Passport (Google OAuth)            |
+| Data         | Appwrite (credit ledger), MongoDB / Mongoose         |
+| Tooling      | nodemon, dotenv, morgan, cors, cookie-session        |
 
----
+## Repo Structure
 
-## 🛠️ Tech Stack (Developer Perspective)
+```
+Thehacktrical-2/
+├── Chrome-Extension/   # The browser extension (manifest + popup + injected scripts)
+├── api/                # Routes, models, config for the credit & auth services
+├── views/              # EJS templates for the web dashboard
+├── public/             # Static assets (CSS / JS / images)
+├── Assests/            # Branding & preview imagery
+├── server.js           # Express entrypoint
+├── app.js              # Wiring + middleware
+└── play.js             # Playback / credit-deduction helpers
+```
 
-| Category     | Technology                 | Purpose                                               |
-| :----------- | :------------------------- | :---------------------------------------------------- |
-| **Frontend** | ReactJS + HTML/CSS         | Modern, responsive UI for the extension & dashboard.  |
-| **Backend**  | ExpressJS + NodeJS         | Scalable API handling credits and authentication.     |
-| **Database** | Appwrite + MongoDB         | Cloud-based credit storage & user profile management. |
-| **Auth**     | Passport.js (Google OAuth) | Frictionless sign-ins for users.                      |
-| **Client**   | Chrome Extension API       | In-browser script injection for Netflix tracking.     |
-
----
-
-## 🏗️ System Architecture
-
-1.  **Extension**: Injects a script into Netflix to track active video playback.
-2.  **API Gateway**: `server.js` routes requests to auth and credit handlers.
-3.  **Credit Micro-service**: Uses Appwrite's database to atomically update user credits based on "Work" (score) vs "Play" (watch time).
-4.  **Security**: Middleware ensures users can only spend the credits they've earned.
-
----
-
-## 🔌 API Reference (Internal)
-
-| Endpoint                | Method | Description                                |
-| :---------------------- | :----- | :----------------------------------------- |
-| `/api/credits/fetchAll` | `GET`  | Fetches all user credit profiles.          |
-| `/api/credits/score`    | `POST` | Increments credits (User finished a task). |
-| `/api/credits/stop`     | `POST` | Decrements credits (User is watching).     |
-| `/auth/google`          | `GET`  | Initiates Google OAuth flow.               |
-
----
-
-## 🚀 Setting Up the Lab
-
-### 1. Backend Initialization
+## Getting Started
 
 ```bash
-# Clone the repository
 git clone https://github.com/GyaneshSamanta/Thehacktrical-2.git
-cd Guilt-free-binge
-
-# Install dependencies
+cd Thehacktrical-2
 npm install
 
-# Setup Environment Variables (.env)
-PORT=3000
-APPWRITE_ENDPOINT=your_endpoint
-APPWRITE_PROJECT_ID=your_id
-APPWRITE_KEY=your_key
+# Create a .env with:
+# PORT=3000
+# APPWRITE_ENDPOINT=...
+# APPWRITE_PROJECT_ID=...
+# APPWRITE_KEY=...
 
-# Start the engine
 npm start
 ```
 
-### 2. Chrome Extension Setup
+Then load the extension:
 
-1. Open Chrome and head to `chrome://extensions/`.
-2. Toggle **Developer Mode** (top right).
-3. Click **Load unpacked**.
-4. Select the `Chrome-Extension` folder from this repository.
-5. Pop open the extension and sign in!
+1. Open `chrome://extensions/`
+2. Enable **Developer mode**
+3. **Load unpacked** → select the `Chrome-Extension/` folder
+4. Sign in via Google and start earning credits.
 
----
+## Contributing
 
-## 📸 Preview
+PRs welcome — fork, branch (`feature/your-thing`), commit, push, open a PR. Issues are a fine place to float ideas before writing code.
 
-<div align="center">
-  <img alt="Preview Images" src="Assests/preview.png" width="80%" />
-</div>
+## License
 
----
+ISC. See standard ISC terms.
 
-## 🗓️ Roadmap (Product Vision)
+## Credits
 
-- [ ] **Multi-platform Support**: Support for Prime Video, Disney+, and Hulu.
-- [ ] **Social Leaderboards**: Compete with friends on who has the best "Self-Control Score".
-- [ ] **Hardcore Mode**: Integration with smart locks/smart plugs to physically lock distractions.
-- [ ] **Advanced Analytics**: Monthly reports on how many hours of life you "saved".
+Built at **Thehacktrical 2** by Team SebastianVettel:
 
----
-
-## 🤝 Contributing
-
-We love developers who want to help users reclaim their time!
-
-1. **Fork** the project.
-2. Create your **Feature Branch** (`git checkout -b feature/AmazingFeature`).
-3. **Commit** your changes (`git commit -m 'Add some AmazingFeature'`).
-4. **Push** to the branch (`git push origin feature/AmazingFeature`).
-5. Open a **Pull Request**.
-
----
-
-## 📜 License & Disclaimers
-
-Distributed under the **ISC License**.
-
-_Note: This project was built during Thehacktrical 2 hackathon. Plagiarism is uncool—if you use this code, give the team some credit!_
+- [Gyanesh Samanta](https://github.com/GyaneshSamanta)
+- [Eshaan Bhardwaj](https://github.com/Eshaan-B)
+- Sudhanshu Srivastava
+- Nitish Chaturvedi
 
 <div align="center">
-  <h3>Built with ❤️ by Team SebastianVettel</h3>
   <a href="https://github.com/GyaneshSamanta/Thehacktrical-2/graphs/contributors">
     <img src="https://contrib.rocks/image?repo=GyaneshSamanta/Thehacktrical-2" />
   </a>
